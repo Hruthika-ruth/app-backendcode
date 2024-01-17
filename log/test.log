@@ -1,0 +1,41 @@
+  [1m[35m (0.6ms)[0m  [1m[35mDROP TABLE IF EXISTS "birth_regs"[0m
+  [1m[35m (5.8ms)[0m  [1m[35mCREATE TABLE "birth_regs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "father_first_name" varchar, "father_last_name" varchar, "mother_first_name" varchar, "mother_last_name" varchar, "child_first_name" varchar, "child_last_name" varchar, "place_of_birth" varchar, "sex" varchar, "address_at_time_of_birth" text, "district" varchar, "permanent_address" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "death_regs"[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "death_regs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "birth_reg_id" integer NOT NULL, "father_first_name" varchar, "father_last_name" varchar, "mother_first_name" varchar, "mother_last_name" varchar, "deceased_first_name" varchar, "deceased_last_name" varchar, "place_of_death" varchar, "place_of_birth" varchar, "sex" varchar, "address_at_time_of_death" text, "permanent_address" text, "local_area" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE INDEX "index_death_regs_on_birth_reg_id" ON "death_regs" ("birth_reg_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "password_digest" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.8ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TEMPORARY TABLE "adeath_regs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "birth_reg_id" integer NOT NULL, "father_first_name" varchar DEFAULT NULL, "father_last_name" varchar DEFAULT NULL, "mother_first_name" varchar DEFAULT NULL, "mother_last_name" varchar DEFAULT NULL, "deceased_first_name" varchar DEFAULT NULL, "deceased_last_name" varchar DEFAULT NULL, "place_of_death" varchar DEFAULT NULL, "place_of_birth" varchar DEFAULT NULL, "sex" varchar DEFAULT NULL, "address_at_time_of_death" text DEFAULT NULL, "permanent_address" text DEFAULT NULL, "local_area" varchar DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "tindex_adeath_regs_on_birth_reg_id" ON "adeath_regs" ("birth_reg_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[32mINSERT INTO "adeath_regs" ("id","birth_reg_id","father_first_name","father_last_name","mother_first_name","mother_last_name","deceased_first_name","deceased_last_name","place_of_death","place_of_birth","sex","address_at_time_of_death","permanent_address","local_area","created_at","updated_at")
+                     SELECT "id","birth_reg_id","father_first_name","father_last_name","mother_first_name","mother_last_name","deceased_first_name","deceased_last_name","place_of_death","place_of_birth","sex","address_at_time_of_death","permanent_address","local_area","created_at","updated_at" FROM "death_regs"[0m
+  [1m[35m (0.6ms)[0m  [1m[35mDROP TABLE "death_regs"[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "death_regs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "birth_reg_id" integer NOT NULL, "father_first_name" varchar DEFAULT NULL, "father_last_name" varchar DEFAULT NULL, "mother_first_name" varchar DEFAULT NULL, "mother_last_name" varchar DEFAULT NULL, "deceased_first_name" varchar DEFAULT NULL, "deceased_last_name" varchar DEFAULT NULL, "place_of_death" varchar DEFAULT NULL, "place_of_birth" varchar DEFAULT NULL, "sex" varchar DEFAULT NULL, "address_at_time_of_death" text DEFAULT NULL, "permanent_address" text DEFAULT NULL, "local_area" varchar DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_271eb163f5"
+FOREIGN KEY ("birth_reg_id")
+  REFERENCES "birth_regs" ("id")
+)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_death_regs_on_birth_reg_id" ON "death_regs" ("birth_reg_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[32mINSERT INTO "death_regs" ("id","birth_reg_id","father_first_name","father_last_name","mother_first_name","mother_last_name","deceased_first_name","deceased_last_name","place_of_death","place_of_birth","sex","address_at_time_of_death","permanent_address","local_area","created_at","updated_at")
+                     SELECT "id","birth_reg_id","father_first_name","father_last_name","mother_first_name","mother_last_name","deceased_first_name","deceased_last_name","place_of_death","place_of_birth","sex","address_at_time_of_death","permanent_address","local_area","created_at","updated_at" FROM "adeath_regs"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "adeath_regs"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20231229220508)[0m
+  [1m[35m (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20231229220506),
+(20231229220503);[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (1.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2023-12-29 23:43:11.850128', '2023-12-29 23:43:11.850138') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '4dac688d82a8af56335b809c839d531009fd5e9d', '2023-12-29 23:43:11.854045', '2023-12-29 23:43:11.854053') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
